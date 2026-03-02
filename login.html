@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliveryit - Admin Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <a href="index.html" class="login-logo">Delivery<span>it</span></a>
+                <h1>Admin Login</h1>
+                <p>Sign in to manage your store</p>
+            </div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="admin@example.com" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
+                </div>
+                <div class="error-message hidden" id="errorMessage">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span id="errorText">Invalid email or password</span>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span>Sign In</span>
+                    <div class="btn-spinner hidden" id="loginSpinner"></div>
+                </button>
+            </form>
+            <div class="login-footer">
+                <a href="index.html">Back to Store</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+</body>
+</html>
