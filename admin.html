@@ -143,21 +143,20 @@
                     <input type="number" id="productPrice" name="productPrice" step="0.01" min="0" required placeholder="Enter price">
                 </div>
 <div class="form-group">
-    <label for="productQuantity">Weight / Quantity</label>
-    <select id="productQuantity" name="productQuantity" required>
-        <option value="">Select weight</option>
-        <option value="250g">250g</option>
-        <option value="500g">500g</option>
-        <option value="1kg">1kg</option>
-        <option value="2kg">2kg</option>
-    </select>
+    <label for="productQuantity">Weight / Quantity (Optional)</label>
+    <input 
+        type="text" 
+        id="productQuantity" 
+        name="productQuantity"
+        placeholder="e.g. 500g, 1kg, 2.5kg"
+    >
 </div>
                 <div class="form-group">
-                    <label for="productCategory">Category</label>
-                    <select id="productCategory" name="productCategory" required>
-                        <option value="">Select category</option>
-                    </select>
-                </div>
+    <label for="productCategory">Category</label>
+    <select id="productCategory" name="productCategory" required>
+        <option value="">Select category</option>
+    </select>
+</div>
                 <div class="form-group">
                     <label for="productImage">Image URL</label>
                     <input type="url" id="productImage" name="productImage" required placeholder="https://example.com/image.jpg">

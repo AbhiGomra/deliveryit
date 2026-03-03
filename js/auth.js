@@ -57,7 +57,7 @@ async function handleLogin(e) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
+        localStorage.setItem("userEmail", user.email);
         // Check if email is verified (optional)
         if (!user.emailVerified) {
             // You can enable email verification in Firebase Console

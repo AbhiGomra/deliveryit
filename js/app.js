@@ -22,8 +22,24 @@ import {
 } from './utils.js';
 
 // Firebase config - import from firebase-config
-import { db } from './firebase-config.js';
+import { db, auth } from './firebase-config.js';
+import { signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "customer-login.html";
+  }
+});
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    alert("Logged out successfully");
+    window.location.href = "customer-login.html";
+  });
+}
 // State
 let products = [];
 let categories = [];
@@ -107,8 +123,7 @@ async function loadProducts() {
         hideElement(productsGrid);
 
         const productsRef = collection(db, 'products');
-        const q = query(productsRef, orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
+const snapshot = await getDocs(productsRef);
 
         products = snapshot.docs.map(doc => ({
             id: doc.id,
@@ -143,32 +158,42 @@ async function loadCategories() {
 
 // Render categories
 function renderCategories() {
-    // Remove existing category buttons except "All"
-    const existingPills = categoriesContainer.querySelectorAll('.category-pill:not([data-category="all"])');
+
+    const existingPills = categoriesContainer
+        .querySelectorAll('.category-pill:not([data-category="all"])');
     existingPills.forEach(pill => pill.remove());
 
-    // Add category pills
     categories.forEach(category => {
         const pill = createElement(`
             <button class="category-pill" data-category="${sanitizeInput(category.name)}">
                 ${sanitizeInput(category.name)}
             </button>
         `);
+
         pill.addEventListener('click', () => selectCategory(category.name));
         categoriesContainer.appendChild(pill);
     });
+
+    // Fix All button click
+    const allBtn = categoriesContainer.querySelector('[data-category="all"]');
+    if (allBtn) {
+        allBtn.addEventListener('click', () => selectCategory('all'));
+    }
 }
 
 // Select category
 function selectCategory(category) {
-    currentCategory = category;
+    currentCategory = category.toLowerCase();
 
     // Update active state
-    document.querySelectorAll('.category-pill').forEach(pill => {
-        pill.classList.toggle('active', pill.dataset.category === category);
-    });
+  document.querySelectorAll('.category-pill').forEach(pill => {
+    pill.classList.toggle(
+        'active',
+        pill.dataset.category.toLowerCase() === currentCategory
+    );
+});
 
-    renderProducts();
+renderProducts();
 }
 
 // Render products
@@ -178,9 +203,10 @@ function renderProducts() {
 
     // Category filter
     if (currentCategory !== 'all') {
-        filteredProducts = filteredProducts.filter(p => p.category === currentCategory);
-    }
-
+    filteredProducts = filteredProducts.filter(
+        p => p.category.toLowerCase() === currentCategory
+    );
+}
     // Search filter
     if (searchQuery) {
         filteredProducts = filteredProducts.filter(p =>
@@ -198,7 +224,7 @@ function renderProducts() {
     }
 
     // Render products grid
-    productsGrid.innerHTML = filteredProducts.map(product => `
+      productsGrid.innerHTML = filteredProducts.map(product => `
         <div class="product-card" data-id="${product.id}">
             <div class="product-image">
                 ${product.imageURL
@@ -214,6 +240,7 @@ function renderProducts() {
             </div>
             <div class="product-info">
                 <h3 class="product-name">${sanitizeInput(product.name)}</h3>
+                ${product.quantity ? `<p class="product-weight">${sanitizeInput(product.quantity)}</p>` : ''}
                 <p class="product-price">${formatPrice(product.price)}</p>
                 <button class="add-to-cart-btn" data-id="${product.id}" data-name="${sanitizeInput(product.name)}" data-price="${product.price}">
                     Add to Cart
@@ -354,6 +381,11 @@ function removeFromCart(productId) {
 
 // Open checkout modal
 function openCheckoutModal() {
+if (!auth.currentUser) {
+  alert("Please login to place order");
+  window.location.href = "customer-login.html";
+  return;
+}
     closeCartModal();
     summaryItems.textContent = calculateItemCount(cart);
     summaryTotal.textContent = formatPrice(calculateTotal(cart));
@@ -390,6 +422,7 @@ async function handleCheckout(e) {
             customerName: sanitizeInput(customerName),
             phone: sanitizeInput(phone),
             address: sanitizeInput(address),
+            email: auth.currentUser.email,
             items: cart.map(item => ({
                 name: item.name,
                 price: item.price,

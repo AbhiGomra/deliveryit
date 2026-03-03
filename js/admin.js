@@ -86,7 +86,12 @@ function checkAuth() {
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             window.location.href = 'login.html';
-        } else {
+        } 
+        else if (user.email !== "abhigomra@gmail.com") {
+            alert("Access Denied. Not an Admin.");
+            window.location.href = "index.html";
+        } 
+        else {
             loadAllData();
         }
     });
@@ -222,9 +227,9 @@ function openProductModal(product = null) {
     productModalTitle.textContent = product ? 'Edit Product' : 'Add Product';
     productIdInput.value = product ? product.id : '';
     document.getElementById('productName').value = product ? product.name : '';
-    document.getElementById('productPrice').value = product ? product.price : '';
-    document.getElementById('productImage').value = product ? product.imageURL : '';
-
+document.getElementById('productPrice').value = product ? product.price : '';
+document.getElementById('productImage').value = product ? product.imageURL : '';
+productQuantityInput.value = product ? (product.quantity || "") : "";
     // Populate category select
     populateCategorySelect();
     document.getElementById('productCategory').value = product ? product.category : '';
@@ -259,9 +264,9 @@ async function handleProductSubmit(e) {
     const price = parseFloat(document.getElementById('productPrice').value);
     const category = document.getElementById('productCategory').value;
     const imageURL = document.getElementById('productImage').value.trim();
-    const quantity = productQuantityInput.value;
+    const quantity = document.getElementById('productQuantity').value.trim();
 
-   if (!name || !price || !category || !quantity) {
+   if (!name || !price || !category) {
         alert('Please fill in all required fields');
         return;
     }
@@ -275,7 +280,7 @@ async function handleProductSubmit(e) {
             name: sanitizeInput(name),
             price: price,
             category: sanitizeInput(category),
-            quantity: sanitizeInput(quantity),
+            quantity: quantity ? sanitizeInput(quantity) : "",
             imageURL: sanitizeInput(imageURL),
             createdAt: editingProductId
                 ? products.find(p => p.id === editingProductId).createdAt
