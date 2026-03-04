@@ -41,7 +41,7 @@
             const email = resetEmailInput.value;
             try {
                 await sendPasswordResetEmail(auth, email);
-                forgotPasswordMessage.textContent = 'Password reset email sent! Check your inbox.';
+                forgotPasswordMessage.innerHTML = 'Password reset email sent! Check your inbox.<br><small style="color: #666;">Note: If you don\'t see it, please check your <b>Spam</b> folder.</small>';
                 forgotPasswordMessage.style.color = 'green';
             } catch (error) {
                 forgotPasswordMessage.textContent = `Error: ${error.message}`;
