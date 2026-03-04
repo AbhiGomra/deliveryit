@@ -5,20 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Orders - Deliveryit</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .orders-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px 0;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .orders-header h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .orders-header p {
+      margin: 10px 0 0 0;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+  </style>
 </head>
 <body>
 
   <header class="header">
     <div class="container">
       <a href="index.html" class="logo">Deliveryit</a>
-      <button onclick="window.location.href='index.html'">Home</button>
+      <nav style="display: flex; gap: 20px;">
+        <a href="index.html" style="text-decoration: none; color: #333;">🏠 Home</a>
+        <a href="orders.html" style="text-decoration: none; color: #007bff; font-weight: bold;">📦 My Orders</a>
+        <button onclick="logout()" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Logout</button>
+      </nav>
     </div>
   </header>
 
-  <section class="container" style="margin-top:40px;">
-    <h2>My Orders</h2>
+  <section class="container">
+    <div class="orders-header">
+      <h2>📦 Mere Orders</h2>
+      <p>Aapne abhi tak jo bhi order kiye hain, sab yahan dekh sakte ho</p>
+    </div>
+
     <div id="ordersContainer"></div>
   </section>
+
+  <script type="module">
+    import { auth } from "./js/firebase-config.js";
+    import { signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    window.logout = async function() {
+      try {
+        await signOut(auth);
+        window.location.href = "customer-login.html";
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    };
+  </script>
 
   <script type="module" src="js/orders.js"></script>
 
