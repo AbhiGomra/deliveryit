@@ -5,30 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Orders - Deliveryit</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background: #f5f7fa;
+      min-height: 100vh;
+    }
+
     .orders-header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 30px 0;
+      padding: 40px 0;
       margin-bottom: 30px;
-      border-radius: 8px;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     }
 
     .orders-header h2 {
       margin: 0;
-      font-size: 28px;
+      font-size: 32px;
+      font-weight: 700;
     }
 
     .orders-header p {
       margin: 10px 0 0 0;
       opacity: 0.9;
-      font-size: 14px;
+      font-size: 16px;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 20px 40px;
     }
   </style>
 </head>
@@ -36,19 +50,21 @@
 
   <header class="header">
     <div class="container">
-      <a href="index.html" class="logo">Deliveryit</a>
-      <nav style="display: flex; gap: 20px;">
-        <a href="index.html" style="text-decoration: none; color: #333;">🏠 Home</a>
-        <a href="orders.html" style="text-decoration: none; color: #007bff; font-weight: bold;">📦 My Orders</a>
-        <button onclick="logout()" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Logout</button>
-      </nav>
+      <div class="header-content">
+        <a href="index.html" class="logo">Delivery<span>it</span></a>
+        <nav style="display: flex; gap: 15px; align-items: center;">
+          <a href="index.html" style="text-decoration: none; color: #333; font-weight: 500;">🏠 Home</a>
+          <a href="orders.html" style="text-decoration: none; color: #667eea; font-weight: 600;">📦 My Orders</a>
+          <button onclick="logout()" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500;">Logout</button>
+        </nav>
+      </div>
     </div>
   </header>
 
   <section class="container">
     <div class="orders-header">
-      <h2>📦 Mere Orders</h2>
-      <p>Aapne abhi tak jo bhi order kiye hain, sab yahan dekh sakte ho</p>
+      <h2>📦 My Orders</h2>
+      <p>Track and manage your delivery orders</p>
     </div>
 
     <div id="ordersContainer"></div>
