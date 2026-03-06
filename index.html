@@ -32,6 +32,29 @@
         </div>
     </header>
 
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Fresh Groceries Delivered <span class="highlight">ASAP</span></h1>
+            <p>Delivery in minutes • Village Majatri's favorite grocery store</p>
+            <div class="delivery-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>ASAP - As Soon As Possible</span>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-fruits">
+                <span class="fruit">🍎</span>
+                <span class="fruit">🍊</span>
+                <span class="fruit">🥬</span>
+                <span class="fruit">🍌</span>
+            </div>
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main class="main">
         <div class="container">
@@ -88,6 +111,10 @@
                 </div>
             </div>
             <div class="cart-footer hidden" id="cartFooter">
+                <div class="cart-delivery-charge">
+                    <span>Delivery Charge</span>
+                    <span class="delivery-amount" id="deliveryCharge">₹10</span>
+                </div>
                 <div class="cart-total">
                     <span>Total</span>
                     <span class="total-amount" id="cartTotal">$0.00</span>
@@ -126,6 +153,10 @@
                     <div class="summary-row">
                         <span>Items</span>
                         <span id="summaryItems">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Charge</span>
+                        <span id="summaryDelivery">₹10</span>
                     </div>
                     <div class="summary-row total">
                         <span>Total Amount</span>

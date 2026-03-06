@@ -47,6 +47,24 @@ let cart = [];
 let currentCategory = 'all';
 let searchQuery = '';
 
+// Calculate delivery charge based on cart total
+function calculateDeliveryCharge(total) {
+    if (total < 30) return 10;
+    if (total < 100) return 7;
+    if (total < 150) return 8;
+    if (total < 181) return 9;
+    if (total < 221) return 10;
+    if (total < 301) return 12;
+    if (total < 401) return 15;
+    if (total < 500) return 17;
+    if (total < 1001) return 20;
+    if (total < 1501) return 23;
+    if (total < 2001) return 25;
+    if (total < 3001) return 35;
+    if (total > 3000) return 50;
+    return 50;
+}
+
 // DOM Elements
 const productsGrid = document.getElementById('productsGrid');
 const categoriesContainer = document.getElementById('categoriesContainer');
@@ -123,13 +141,14 @@ async function loadProducts() {
         hideElement(productsGrid);
 
         const productsRef = collection(db, 'products');
-const snapshot = await getDocs(productsRef);
+        const snapshot = await getDocs(productsRef);
 
         products = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
         }));
 
+        console.log('Products loaded:', products.length);
         renderProducts();
     } catch (error) {
         console.error('Error loading products:', error);
@@ -198,6 +217,8 @@ renderProducts();
 
 // Render products
 function renderProducts() {
+    console.log('Rendering products, total:', products.length, 'category:', currentCategory, 'search:', searchQuery);
+    
     // Filter products
     let filteredProducts = products;
 
@@ -214,6 +235,8 @@ function renderProducts() {
         );
     }
 
+    console.log('Filtered products:', filteredProducts.length);
+
     // Show/hide empty state
     if (filteredProducts.length === 0) {
         showElement(emptyState);
@@ -224,7 +247,7 @@ function renderProducts() {
     }
 
     // Render products grid
-      productsGrid.innerHTML = filteredProducts.map(product => `
+    productsGrid.innerHTML = filteredProducts.map(product => `
         <div class="product-card" data-id="${product.id}">
             <div class="product-image">
                 ${product.imageURL
@@ -237,14 +260,13 @@ function renderProducts() {
                         </svg>
                     </div>`
                 }
+                <div class="product-badge">⚡ ASAP</div>
             </div>
             <div class="product-info">
                 <h3 class="product-name">${sanitizeInput(product.name)}</h3>
                 ${product.quantity ? `<p class="product-weight">${sanitizeInput(product.quantity)}</p>` : ''}
                 <p class="product-price">${formatPrice(product.price)}</p>
-                <button class="add-to-cart-btn" data-id="${product.id}" data-name="${sanitizeInput(product.name)}" data-price="${product.price}">
-                    Add to Cart
-                </button>
+                ${getProductButtonHtml(product)}
             </div>
         </div>
     `).join('');
@@ -253,6 +275,28 @@ function renderProducts() {
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', handleAddToCart);
     });
+    
+    // Add event listeners to quantity buttons
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', handleQuantityChange);
+    });
+}
+
+// Get product button HTML (Add to Cart or Quantity Selector)
+function getProductButtonHtml(product) {
+    const cartItem = cart.find(item => item.id === product.id);
+    
+    if (cartItem) {
+        return `
+            <div class="quantity-selector">
+                <button class="quantity-btn" data-id="${product.id}" data-action="decrease">−</button>
+                <span class="quantity-value">${cartItem.quantity}</span>
+                <button class="quantity-btn" data-id="${product.id}" data-action="increase">+</button>
+            </div>
+        `;
+    }
+    
+    return `<button class="add-to-cart-btn" data-id="${product.id}" data-name="${sanitizeInput(product.name)}" data-price="${product.price}">Add to Cart</button>`;
 }
 
 // Handle add to cart
@@ -279,14 +323,32 @@ function handleAddToCart(e) {
     // Save cart
     saveCart(cart);
     updateCartCount();
+    
+    // Re-render products to show quantity selector
+    renderProducts();
+}
 
-    // Show added feedback
-    btn.textContent = 'Added!';
-    btn.classList.add('added');
-    setTimeout(() => {
-        btn.textContent = 'Add to Cart';
-        btn.classList.remove('added');
-    }, 1000);
+// Handle quantity change (+/-)
+function handleQuantityChange(e) {
+    const btn = e.target.closest('.quantity-btn');
+    const productId = btn.dataset.id;
+    const action = btn.dataset.action;
+    
+    const existingItem = cart.find(item => item.id === productId);
+    if (!existingItem) return;
+    
+    if (action === 'increase') {
+        existingItem.quantity++;
+    } else if (action === 'decrease') {
+        existingItem.quantity--;
+        if (existingItem.quantity <= 0) {
+            cart = cart.filter(item => item.id !== productId);
+        }
+    }
+    
+    saveCart(cart);
+    updateCartCount();
+    renderProducts();
 }
 
 // Update cart count
@@ -353,7 +415,17 @@ function renderCartItems() {
     });
 
     // Update total
-    cartTotal.textContent = formatPrice(calculateTotal(cart));
+    const cartSubtotal = calculateTotal(cart);
+    const deliveryCharge = calculateDeliveryCharge(cartSubtotal);
+    const grandTotal = cartSubtotal + deliveryCharge;
+    
+    // Update delivery charge display
+    const deliveryChargeEl = document.getElementById('deliveryCharge');
+    if (deliveryChargeEl) {
+        deliveryChargeEl.textContent = formatPrice(deliveryCharge);
+    }
+    
+    cartTotal.textContent = formatPrice(grandTotal);
 }
 
 // Update quantity
@@ -387,8 +459,19 @@ if (!auth.currentUser) {
   return;
 }
     closeCartModal();
+    const cartSubtotal = calculateTotal(cart);
+    const deliveryCharge = calculateDeliveryCharge(cartSubtotal);
+    const grandTotal = cartSubtotal + deliveryCharge;
+    
     summaryItems.textContent = calculateItemCount(cart);
-    summaryTotal.textContent = formatPrice(calculateTotal(cart));
+    
+    // Update delivery charge display
+    const summaryDelivery = document.getElementById('summaryDelivery');
+    if (summaryDelivery) {
+        summaryDelivery.textContent = formatPrice(deliveryCharge);
+    }
+    
+    summaryTotal.textContent = formatPrice(grandTotal);
     showElement(checkoutModal);
     document.body.style.overflow = 'hidden';
 }
