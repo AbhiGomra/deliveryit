@@ -458,7 +458,13 @@ if (!auth.currentUser) {
   window.location.href = "customer-login.html";
   return;
 }
-    closeCartModal();
+
+if (cart.length === 0) {
+    alert('Your cart is empty. Please add items before checkout.');
+    return;
+}
+
+closeCartModal();
     const cartSubtotal = calculateTotal(cart);
     const deliveryCharge = calculateDeliveryCharge(cartSubtotal);
     const grandTotal = cartSubtotal + deliveryCharge;

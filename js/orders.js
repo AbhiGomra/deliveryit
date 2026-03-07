@@ -57,9 +57,11 @@ onAuthStateChanged(auth, async (user) => {
 
         ordersContainer.innerHTML = querySnapshot.docs.map((doc) => {
             const order = doc.data();
-            const orderDate = new Date(order.createdAt.seconds * 1000);
-            const statusColor = getStatusColor(order.status);
-            const statusBg = getStatusBg(order.status);
+            const orderDate = order.createdAt && order.createdAt.seconds 
+                ? new Date(order.createdAt.seconds * 1000) 
+                : new Date();
+            const statusColor = getStatusColor(order.status || 'pending');
+            const statusBg = getStatusBg(order.status || 'pending');
 
             return `
                 <div style="
