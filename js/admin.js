@@ -82,19 +82,37 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Check authentication
-function checkAuth() {
-    onAuthStateChanged(auth, (user) => {
+async function checkAuth() {
+    onAuthStateChanged(auth, async (user) => {
         if (!user) {
             window.location.href = 'login.html';
         } 
-        else if (user.email !== "abhigomra@gmail.com") {
-            alert("Access Denied. Not an Admin.");
-            window.location.href = "index.html";
-        } 
         else {
-            loadAllData();
+            // Check if user is admin in Firestore
+            const isAdmin = await checkIfAdmin(user.email);
+            if (!isAdmin) {
+                alert("Access Denied. Not an Admin.");
+                window.location.href = "index.html";
+            } 
+            else {
+                loadAllData();
+            }
         }
     });
+}
+
+// Check if email is admin in Firestore
+async function checkIfAdmin(email) {
+    // Code mein koi email nahi - sirf database check karta hai
+    const adminsRef = collection(db, 'admins');
+    const querySnapshot = await getDocs(adminsRef);
+    
+    for (const doc of querySnapshot.docs) {
+        if (doc.data().email === email) {
+            return true;  // Admin mil gaya!
+        }
+    }
+    return false;
 }
 
 // Setup event listeners

@@ -143,7 +143,14 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your 10-digit phone number" pattern="[0-9]{10}" maxlength="10">
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="cod">Cash on Delivery (COD)</option>
+                        <option value="online" disabled>Online Payment (Coming Soon)</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="address">Delivery Address</label>

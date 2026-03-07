@@ -199,7 +199,10 @@ onAuthStateChanged(auth, async (user) => {
                         </div>
                         <div style="text-align: right;">
                             <p style="margin: 0; font-size: 13px; color: #888;">
-                                Total Amount
+                                Subtotal
+                            </p>
+                            <p style="margin: 2px 0 0 0; font-size: 14px; color: #666;">
+                                + Delivery: <span style="color: #28a745;">₹${(order.deliveryCharge || 0).toFixed(2)}</span>
                             </p>
                             <p style="margin: 4px 0 0 0; font-size: 26px; color: #667eea; font-weight: 700;">
                                 ₹${order.totalAmount.toFixed(2)}

@@ -1742,3 +1742,488 @@ a {
         display: none;
     }
 }
+
+/* ============================================
+   Mobile Optimizations (Extra)
+   ============================================ */
+
+/* Touch-friendly buttons */
+@media (max-width: 480px) {
+    .add-to-cart-btn,
+    .quantity-btn,
+    .checkout-btn,
+    .btn-primary,
+    .btn-secondary {
+        min-height: 48px;
+        padding: 12px 16px;
+        font-size: 16px;
+    }
+
+    .quantity-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Larger touch targets for form inputs */
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 14px;
+        font-size: 16px;
+        min-height: 48px;
+    }
+
+    /* Cart modal - full screen on mobile */
+    .cart-modal {
+        max-height: 90vh;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .checkout-modal {
+        max-height: 90vh;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        padding: 16px;
+    }
+
+    /* Product card improvements */
+    .product-card {
+        border-radius: var(--radius);
+    }
+
+    .product-info {
+        padding: 10px;
+    }
+
+    .product-name {
+        font-size: 13px;
+        min-height: 36px;
+    }
+
+    .product-price {
+        font-size: 16px;
+    }
+
+    /* Header mobile */
+    .header {
+        padding: 8px 0;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .cart-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Hero section mobile */
+    .hero-banner {
+        padding: 40px 16px;
+    }
+
+    .hero-banner h1 {
+        font-size: 24px;
+    }
+
+    .hero-banner p {
+        font-size: 14px;
+    }
+
+    /* Search bar mobile */
+    .search-bar {
+        padding: 8px;
+    }
+
+    .search-bar input {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Category filters mobile */
+    .category-filters {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .category-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    /* Cart items mobile */
+    .cart-item {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .cart-item-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cart-item-name {
+        font-size: 14px;
+    }
+
+    .cart-item-price {
+        font-size: 14px;
+    }
+
+    /* Cart footer mobile */
+    .cart-footer {
+        padding: 16px;
+    }
+
+    .cart-delivery-charge,
+    .cart-total {
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .total-amount {
+        font-size: 18px;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    /* Checkout form mobile */
+    .checkout-form {
+        gap: 12px;
+    }
+
+    .checkout-form .form-group label {
+        font-size: 14px;
+    }
+
+    .checkout-form .form-group input,
+    .checkout-form .form-group textarea {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Order summary mobile */
+    .order-summary {
+        padding: 12px;
+    }
+
+    .summary-item {
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .summary-total {
+        font-size: 16px;
+        padding-top: 12px;
+    }
+
+    /* Login/Register forms mobile */
+    .container {
+        padding: 0 12px;
+    }
+
+    .login-container,
+    .register-container {
+        padding: 24px 16px;
+        margin: 20px auto;
+    }
+
+    .login-container h2,
+    .register-container h2 {
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group input {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    /* Google button mobile */
+    .google-btn {
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    /* Links mobile */
+    .auth-links {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    /* Admin table mobile */
+    .admin-table {
+        font-size: 12px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 8px 4px;
+    }
+
+    /* Modal overlay - full screen touch */
+    .modal-overlay {
+        align-items: flex-end;
+    }
+
+    @media (min-width: 768px) {
+        .modal-overlay {
+            align-items: center;
+        }
+    }
+
+    /* Order cards mobile */
+    .order-card {
+        padding: 12px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .order-id {
+        font-size: 14px;
+    }
+
+    .order-date {
+        font-size: 12px;
+    }
+
+    .order-status {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    /* Scrollbar hide on mobile */
+    .category-filters::-webkit-scrollbar,
+    .admin-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .category-filters,
+    .admin-nav {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .product-card {
+        display: flex;
+        flex-direction: row;
+        height: 100px;
+    }
+
+    .product-image {
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+    }
+
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+    }
+
+    .product-name {
+        min-height: auto;
+        -webkit-line-clamp: 2;
+    }
+
+    .product-weight {
+        font-size: 11px;
+    }
+
+    .product-price {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .add-to-cart-btn,
+    .quantity-selector {
+        padding: 6px;
+        font-size: 12px;
+    }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .cart-modal,
+    .checkout-modal {
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    .cart-items {
+        max-height: 40vh;
+    }
+}
+
+/* High DPI mobile displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .product-image img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Login/Register Page Mobile - Specific fixes */
+@media (max-width: 480px) {
+    /* Login page specific */
+    .container[style*="max-width"] {
+        max-width: 100% !important;
+        margin-top: 20px !important;
+        padding: 0 16px !important;
+    }
+
+    .container[style*="max-width"] h2 {
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 14px 12px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        min-height: 48px;
+        box-sizing: border-box;
+    }
+
+    .login-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 16px;
+        font-size: 16px;
+        min-height: 48px;
+    }
+
+    .forgot-email {
+        text-align: center;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .google-btn {
+        width: 100%;
+        padding: 14px 12px;
+        font-size: 15px;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    .google-btn svg {
+        flex-shrink: 0;
+    }
+
+    .divider {
+        margin: 20px 0;
+    }
+
+    /* Register page mobile */
+    .register-container {
+        padding: 20px 16px;
+        margin: 16px auto;
+    }
+
+    .register-container h2 {
+        font-size: 24px;
+    }
+}
+
+/* Very small screens (iPhone SE, older phones) */
+@media (max-width: 360px) {
+    .container[style*="max-width"] {
+        padding: 0 12px !important;
+    }
+
+    .form-group input {
+        padding: 12px 10px;
+        font-size: 16px;
+    }
+
+    .google-btn {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+}
+
+/* Force Google button visibility on mobile - COMPREHENSIVE */
+@media (max-width: 480px) {
+    .google-btn {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        margin-top: 16px !important;
+        min-height: 50px !important;
+        pointer-events: auto !important;
+    }
+    
+    /* Fix container overflow hiding elements */
+    .container[style*="max-width"] {
+        overflow: visible !important;
+        max-height: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 16px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-top: 20px !important;
+    }
+    
+    /* Fix body overflow */
+    body {
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Make sure parent elements don't hide */
+    body > .container {
+        overflow: visible !important;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .google-btn:hover {
+        background: white;
+        border-color: var(--border);
+    }
+    
+    .google-btn:active {
+        background: #f0f0f0;
+        transform: scale(0.98);
+    }
+}

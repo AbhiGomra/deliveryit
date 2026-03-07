@@ -501,12 +501,26 @@ async function handleCheckout(e) {
         return;
     }
 
+    // Validate phone number - must be exactly 10 digits
+    if (!/^\d{10}$/.test(phone)) {
+        alert('Please enter a valid 10-digit phone number');
+        document.getElementById('phone').focus();
+        return;
+    }
+
     // Show loading
     placeOrderBtn.disabled = true;
     showElement(orderSpinner);
     placeOrderBtn.querySelector('span').textContent = 'Placing Order...';
 
     try {
+        const cartSubtotal = calculateTotal(cart);
+        const deliveryCharge = calculateDeliveryCharge(cartSubtotal);
+        const grandTotal = cartSubtotal + deliveryCharge;
+        
+        const paymentMethodEl = document.getElementById('paymentMethod');
+        const paymentMethod = paymentMethodEl ? paymentMethodEl.value : 'cod';
+        
         const orderData = {
             customerName: sanitizeInput(customerName),
             phone: sanitizeInput(phone),
@@ -517,7 +531,10 @@ async function handleCheckout(e) {
                 price: item.price,
                 quantity: item.quantity
             })),
-            totalAmount: calculateTotal(cart),
+            subtotal: cartSubtotal,
+            deliveryCharge: deliveryCharge,
+            totalAmount: grandTotal,
+            paymentMethod: paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online Payment',
             status: 'pending',
             createdAt: new Date()
         };

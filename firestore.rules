@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+
+    match /admins/{email} {
+      // Admins apni email se document read kar sakte hain
+      // Admin write ke liye sirf admin hi kar sakta hai
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    match /products/{productId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /categories/{categoryId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow read: if request.auth != null && 
+        (isAdmin() || resource.data.customerEmail == request.auth.token.email);
+      allow create: if request.auth != null;
+      allow update, delete: if isAdmin();
+    }
+
+  }
+}
