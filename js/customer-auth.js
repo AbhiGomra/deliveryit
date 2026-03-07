@@ -3,8 +3,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 import { auth } from "./firebase-config.js";
+
+const googleProvider = new GoogleAuthProvider();
 
 
 
@@ -13,6 +17,23 @@ import { auth } from "./firebase-config.js";
 ========================= */
 
 const registerForm = document.getElementById("registerForm");
+const googleRegisterBtn = document.getElementById("googleRegisterBtn");
+
+// Google Register
+if (googleRegisterBtn) {
+  googleRegisterBtn.addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      
+      alert("Registration successful ✅");
+      window.location.href = "index.html";
+    } catch (error) {
+      console.error("Google signup error:", error);
+      alert(error.message);
+    }
+  });
+}
 
 if (registerForm) {
   registerForm.addEventListener("submit", async (e) => {
@@ -41,6 +62,23 @@ window.location.href = "customer-login.html";
 ========================= */
 
 const loginForm = document.getElementById("loginForm");
+const googleLoginBtn = document.getElementById("googleLoginBtn");
+
+// Google Login
+if (googleLoginBtn) {
+  googleLoginBtn.addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      
+      alert("Login successful ✅");
+      window.location.href = "index.html";
+    } catch (error) {
+      console.error("Google login error:", error);
+      alert(error.message);
+    }
+  });
+}
 
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
